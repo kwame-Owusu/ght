@@ -34,7 +34,7 @@ func init() {
 	rootCmd.Flags().BoolVarP(&dayFlag, "day", "d", false, "Get trending repos today")
 	rootCmd.Flags().BoolVarP(&weekFlag, "week", "w", false, "Get trending repos for the week")
 	rootCmd.Flags().BoolVarP(&monthFlag, "month", "m", false, "Get trending repos for this month")
-	rootCmd.Flags().IntVarP(&limitFlag, "limit", "l", 10, "Limit the response")
+	rootCmd.Flags().IntVarP(&limitFlag, "limit", "l", 5, "Limit the response of github repos")
 	rootCmd.MarkFlagsMutuallyExclusive("day", "week", "month")
 }
 
