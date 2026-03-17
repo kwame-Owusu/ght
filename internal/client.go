@@ -11,6 +11,7 @@ type TrendingParams struct {
 	DayFlag   bool
 	WeekFlag  bool
 	MonthFlag bool
+	YearFlag  bool
 	Limit     int
 }
 
@@ -25,6 +26,8 @@ func MakeTrendingRequest(p TrendingParams) {
 		duration = now.AddDate(0, 0, -7).Format("2006-01-02")
 	case p.MonthFlag:
 		duration = now.AddDate(0, -1, 0).Format("2006-01-02")
+	case p.YearFlag:
+		duration = now.AddDate(-1, 0, 0).Format("2006-01-02")
 
 	}
 	url := fmt.Sprintf(
