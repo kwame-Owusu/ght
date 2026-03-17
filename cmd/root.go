@@ -19,14 +19,7 @@ var rootCmd = &cobra.Command{
 }
 
 func getTrending(cmd *cobra.Command, args []string) {
-	switch {
-	case dayFlag:
-		internal.MakeDayRequest()
-	case weekFlag:
-		internal.MakeWeekRequest()
-	case monthFlag:
-		internal.MakeMonthRequest()
-	}
+	internal.MakeTrendingRequest(dayFlag, weekFlag, monthFlag)
 }
 
 func init() {
