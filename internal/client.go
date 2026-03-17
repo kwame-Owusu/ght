@@ -45,7 +45,14 @@ func MakeTrendingRequest(p TrendingParams) {
 	}
 
 	for _, item := range searchResp.Items {
-		fmt.Println(item.HTMLURL)
+		fmt.Printf("Full Name: %s\n", item.FullName)
+		fmt.Printf("Description: %s\n", item.Description)
+		fmt.Printf("URL: %s\n", item.HTMLURL)
+		fmt.Printf("Creation Date: %s\n", item.CreatedAt)
+		fmt.Printf("Visibility: %s\n", item.Visibility)
+		fmt.Printf("Stars: %d\n", item.StargazersCount)
+		fmt.Println()
+
 	}
 
 }
