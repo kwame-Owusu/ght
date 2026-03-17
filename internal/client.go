@@ -7,22 +7,30 @@ import (
 	"time"
 )
 
-func MakeTrendingRequest(dayFlag, weekFlag, monthFlag bool) {
+type TrendingParams struct {
+	DayFlag   bool
+	WeekFlag  bool
+	MonthFlag bool
+	Limit     int
+}
+
+func MakeTrendingRequest(p TrendingParams) {
 	var duration string
 	now := time.Now()
 
 	switch {
-	case dayFlag:
+	case p.DayFlag:
 		duration = now.AddDate(0, 0, -1).Format("2006-01-02")
-	case weekFlag:
+	case p.WeekFlag:
 		duration = now.AddDate(0, 0, -7).Format("2006-01-02")
-	case monthFlag:
+	case p.MonthFlag:
 		duration = now.AddDate(0, -1, 0).Format("2006-01-02")
 
 	}
 	url := fmt.Sprintf(
-		"https://api.github.com/search/repositories?q=created:>%s&sort=stars&order=desc&per_page=25",
+		"https://api.github.com/search/repositories?q=created:>%s&sort=stars&order=desc&per_page=%d",
 		duration,
+		p.Limit,
 	)
 
 	searchResp := SearchResponse{}

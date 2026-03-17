@@ -11,6 +11,7 @@ import (
 )
 
 var dayFlag, weekFlag, monthFlag bool
+var limitFlag int
 
 var rootCmd = &cobra.Command{
 	Use:   "ght",
@@ -19,13 +20,21 @@ var rootCmd = &cobra.Command{
 }
 
 func getTrending(cmd *cobra.Command, args []string) {
-	internal.MakeTrendingRequest(dayFlag, weekFlag, monthFlag)
+	params := internal.TrendingParams{
+		DayFlag:   dayFlag,
+		WeekFlag:  weekFlag,
+		MonthFlag: monthFlag,
+		Limit:     limitFlag,
+	}
+
+	internal.MakeTrendingRequest(params)
 }
 
 func init() {
 	rootCmd.Flags().BoolVarP(&dayFlag, "day", "d", false, "Get trending repos today")
 	rootCmd.Flags().BoolVarP(&weekFlag, "week", "w", false, "Get trending repos for the week")
 	rootCmd.Flags().BoolVarP(&monthFlag, "month", "m", false, "Get trending repos for this month")
+	rootCmd.Flags().IntVarP(&limitFlag, "limit", "l", 10, "Limit the response")
 	rootCmd.MarkFlagsMutuallyExclusive("day", "week", "month")
 }
 
