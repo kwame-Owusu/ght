@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var dayFlag bool
+var dayFlag, weekFlag, monthFlag bool
 
 var rootCmd = &cobra.Command{
 	Use:   "ght",
@@ -19,11 +19,20 @@ var rootCmd = &cobra.Command{
 }
 
 func getTrending(cmd *cobra.Command, args []string) {
-	internal.MakeDayRequest()
+	switch {
+	case dayFlag:
+		internal.MakeDayRequest()
+	case weekFlag:
+		internal.MakeWeekRequest()
+	case monthFlag:
+		internal.MakeMonthRequest()
+	}
 }
 
 func init() {
-	rootCmd.Flags().BoolVarP(&dayFlag, "day", "d", false, "Get trending today")
+	rootCmd.Flags().BoolVarP(&dayFlag, "day", "d", false, "Get trending repos today")
+	rootCmd.Flags().BoolVarP(&weekFlag, "week", "w", false, "Get trending repos for the week")
+	rootCmd.Flags().BoolVarP(&monthFlag, "month", "m", false, "Get trending repos for this month")
 }
 
 func Execute() {
