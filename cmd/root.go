@@ -33,6 +33,7 @@ func init() {
 	rootCmd.Flags().BoolVarP(&dayFlag, "day", "d", false, "Get trending repos today")
 	rootCmd.Flags().BoolVarP(&weekFlag, "week", "w", false, "Get trending repos for the week")
 	rootCmd.Flags().BoolVarP(&monthFlag, "month", "m", false, "Get trending repos for this month")
+	rootCmd.MarkFlagsMutuallyExclusive("day", "week", "month")
 }
 
 func Execute() {
