@@ -45,10 +45,15 @@ func MakeTrendingRequest(p TrendingParams) {
 	}
 
 	for _, item := range searchResp.Items {
+		formattedDate, err := time.Parse(time.RFC3339, item.CreatedAt)
+		if err != nil {
+			fmt.Printf("error parsing time into date object: %s", err)
+		}
+
 		fmt.Printf("Full Name: %s\n", item.FullName)
 		fmt.Printf("Description: %s\n", item.Description)
 		fmt.Printf("URL: %s\n", item.HTMLURL)
-		fmt.Printf("Creation Date: %s\n", item.CreatedAt)
+		fmt.Printf("Creation Date: %s\n", formattedDate.Format("January 02, 2006"))
 		fmt.Printf("Visibility: %s\n", item.Visibility)
 		fmt.Printf("Stars: %d\n", item.StargazersCount)
 		fmt.Println()
