@@ -10,31 +10,24 @@ import (
 var (
 	headerStyle = lipgloss.NewStyle().
 			Bold(true).
-			Foreground(lipgloss.Color("69")). // soft purple/blue
-			PaddingLeft(1)
+			Foreground(lipgloss.Color("69"))
 
 	repoNameStyle = lipgloss.NewStyle().
 			Bold(true).
-			Foreground(lipgloss.Color("111")) // light blue
+			Foreground(lipgloss.Color("111"))
 
 	descStyle = lipgloss.NewStyle().
-			Foreground(lipgloss.Color("245")). // muted gray
+			Foreground(lipgloss.Color("245")).
 			PaddingLeft(1)
 
-	metaStyle = lipgloss.NewStyle().
-			Foreground(lipgloss.Color("240"))
-
 	starStyle = lipgloss.NewStyle().
-			Foreground(lipgloss.Color("220")) // gold
+			Foreground(lipgloss.Color("220"))
 
 	urlStyle = lipgloss.NewStyle().
-			Foreground(lipgloss.Color("39")). // cyan-blue
-			Italic(true)
+			Foreground(lipgloss.Color("39"))
 
-	badgePublic = lipgloss.NewStyle().
-			Foreground(lipgloss.Color("76")).
-			Border(lipgloss.RoundedBorder()).
-			PaddingLeft(1).PaddingRight(1)
+	badgeStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("#6FAF4F"))
 
 	cardStyle = lipgloss.NewStyle().
 			Border(lipgloss.RoundedBorder()).
@@ -54,24 +47,30 @@ func renderRepos(items []Repository) {
 	for i, item := range items {
 		formattedDate, _ := time.Parse(time.RFC3339, item.CreatedAt)
 
-		rank := fmt.Sprintf("#%d", i+1)
-		header := lipgloss.JoinHorizontal(lipgloss.Center,
-			headerStyle.Render(rank),
-			repoNameStyle.Render(" "+item.FullName),
-			"  ",
-			badgePublic.Render(item.Visibility),
-		)
+		rank := headerStyle.Render(fmt.Sprintf("#%d", i+1))
+		name := repoNameStyle.Render(item.FullName)
+		badge := badgeStyle.Render("[" + item.Visibility + "]")
+
+		header := rank + "  " + name + "  " + badge
 
 		desc := descStyle.Render(item.Description)
 
-		meta := metaStyle.Render(
-			starStyle.Render("★") + fmt.Sprintf(" %-8d", item.StargazersCount) +
-				"  🗓 " + formattedDate.Format("January 02, 2006") +
-				"  " + urlStyle.Render(item.HTMLURL),
-		)
+		stars := starStyle.Render("★ ") + formatNumber(item.StargazersCount)
+		date := "  📅 " + formattedDate.Format("Jan 02, 2006")
+		url := "  " + urlStyle.Render(item.HTMLURL)
+
+		meta := lipgloss.NewStyle().
+			Foreground(lipgloss.Color("240")).
+			PaddingLeft(1).
+			Render(stars + date + url)
 
 		card := cardStyle.Width(width).Render(
-			lipgloss.JoinVertical(lipgloss.Left, header, desc, meta),
+			lipgloss.JoinVertical(lipgloss.Left,
+				header,
+				"",
+				desc,
+				meta,
+			),
 		)
 
 		fmt.Println(card)
@@ -80,4 +79,16 @@ func renderRepos(items []Repository) {
 	fmt.Println(dividerStyle.Render(
 		fmt.Sprintf("── %d results %s", len(items), strings.Repeat("─", width-14)),
 	))
+}
+
+func formatNumber(n int) string {
+	s := fmt.Sprintf("%d", n)
+	result := ""
+	for i, c := range s {
+		if i > 0 && (len(s)-i)%3 == 0 {
+			result += ","
+		}
+		result += string(c)
+	}
+	return result
 }
