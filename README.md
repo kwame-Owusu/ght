@@ -15,6 +15,13 @@
 
 ---
 
+
+## 🎥 Demo
+
+https://github.com/user-attachments/assets/bee99a4b-c4e6-4533-b079-2e56e541911b
+
+
+
 ## 📦 Installation
 
 ### Homebrew (macOS/Linux)
