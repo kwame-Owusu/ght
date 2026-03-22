@@ -20,7 +20,7 @@ for build in "${builds[@]}"; do
 
   echo "→ $OUTPUT"
   GOOS=$GOOS GOARCH=$GOARCH \
-    go build -o "$BUILD_DIR/$OUTPUT"
+    go build -o "$BUILD_DIR/$OUTPUT" -ldflags "-w -s"
 done
 
 #File is created if missing, File is emptied if it exists
