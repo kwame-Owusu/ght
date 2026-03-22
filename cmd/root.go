@@ -12,6 +12,7 @@ import (
 
 var dayFlag, weekFlag, monthFlag, yearFlag bool
 var limitFlag int
+var languageFlag string
 
 var rootCmd = &cobra.Command{
 	Use:   "ght",
@@ -26,6 +27,7 @@ func getTrending(cmd *cobra.Command, args []string) {
 		MonthFlag: monthFlag,
 		YearFlag:  yearFlag,
 		Limit:     limitFlag,
+		Language:  languageFlag,
 	}
 
 	internal.MakeTrendingRequest(params)
@@ -37,6 +39,7 @@ func init() {
 	rootCmd.Flags().BoolVarP(&monthFlag, "month", "m", false, "Get trending repos for this month")
 	rootCmd.Flags().BoolVarP(&yearFlag, "year", "y", false, "Get trending repos for past year")
 	rootCmd.Flags().IntVarP(&limitFlag, "limit", "l", 5, "Limit the response of github repos")
+	rootCmd.Flags().StringVarP(&languageFlag, "language", "L", "", "Get repos filtered by programming language")
 	rootCmd.MarkFlagsMutuallyExclusive("day", "week", "month")
 }
 

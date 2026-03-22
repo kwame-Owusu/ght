@@ -13,6 +13,7 @@ type TrendingParams struct {
 	MonthFlag bool
 	YearFlag  bool
 	Limit     int
+	Language  string
 }
 
 func MakeTrendingRequest(p TrendingParams) {
@@ -30,9 +31,14 @@ func MakeTrendingRequest(p TrendingParams) {
 		duration = now.AddDate(-1, 0, 0).Format("2006-01-02")
 
 	}
+	query := fmt.Sprintf("created:>%s", duration)
+	if p.Language != "" {
+		query += "+language:" + p.Language
+	}
+
 	url := fmt.Sprintf(
-		"https://api.github.com/search/repositories?q=created:>%s&sort=stars&order=desc&per_page=%d",
-		duration,
+		"https://api.github.com/search/repositories?q=%s&sort=stars&order=desc&per_page=%d",
+		query,
 		p.Limit,
 	)
 
