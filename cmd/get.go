@@ -50,5 +50,5 @@ func cloneTrendingRepo(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	fmt.Printf(" Successfully cloned to %s/%s\n", home, projectName)
+	fmt.Printf("Successfully cloned to %s/%s\n", home, projectName)
 }
