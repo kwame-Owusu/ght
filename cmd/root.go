@@ -41,6 +41,7 @@ func init() {
 	rootCmd.Flags().IntVarP(&limitFlag, "limit", "l", 5, "Limit the response of github repos")
 	rootCmd.Flags().StringVarP(&languageFlag, "language", "L", "", "Get repos filtered by programming language")
 	rootCmd.MarkFlagsMutuallyExclusive("day", "week", "month")
+	rootCmd.AddCommand(getCmd)
 }
 
 func Execute() {
