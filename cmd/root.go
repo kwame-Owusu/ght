@@ -42,6 +42,7 @@ func init() {
 	rootCmd.Flags().StringVarP(&languageFlag, "language", "L", "", "Get repos filtered by programming language")
 	rootCmd.MarkFlagsMutuallyExclusive("day", "week", "month")
 	rootCmd.AddCommand(getCmd)
+	rootCmd.AddCommand(getReadme)
 }
 
 func Execute() {

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -21,17 +20,9 @@ func cloneTrendingRepo(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	input := strings.Trim(args[0], "/")
-	parts := strings.Split(input, "/")
+	repo := parseRepoURL(args[0])
 
-	if len(parts) < 2 {
-		fmt.Println("Error: Invalid format. Use 'user/repo' (e.g., ght get golang/go)")
-		return
-	}
-
-	userName := parts[0]
-	projectName := parts[1]
-	repoURL := fmt.Sprintf("https://github.com/%s/%s.git", userName, projectName)
+	repoURL := fmt.Sprintf("https://github.com/%s/%s.git", repo.userName, repo.projectName)
 
 	home, err := os.UserHomeDir()
 	if err != nil {
@@ -39,7 +30,7 @@ func cloneTrendingRepo(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	fmt.Printf("Cloning %s/%s...\n", userName, projectName)
+	fmt.Printf("Cloning %s/%s...\n", repo.userName, repo.projectName)
 
 	gitCloneCmd := exec.Command("git", "clone", repoURL)
 	gitCloneCmd.Dir = home
@@ -50,5 +41,5 @@ func cloneTrendingRepo(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	fmt.Printf("Successfully cloned to %s/%s\n", home, projectName)
+	fmt.Printf("Successfully cloned to %s/%s\n", home, repo.projectName)
 }
