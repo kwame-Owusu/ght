@@ -6,6 +6,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
+	"os/exec"
+	"strings"
 
 	"github.com/charmbracelet/glamour"
 	"github.com/spf13/cobra"
@@ -37,8 +40,17 @@ func repoReadme(cmd *cobra.Command, args []string) {
 	}
 
 	out, err := glamour.Render(readme, "dark") 
-	fmt.Print(out)
-	fmt.Print("\033[H")
+	if err != nil{
+		fmt.Println("Error: error rendering markdown through glamour")
+		return
+	}
+
+	execCmd := exec.Command("less", "-R") // -R = allow ANSI colors
+	execCmd.Stdin = strings.NewReader(out)
+	execCmd.Stdout = os.Stdout
+	execCmd.Stderr = os.Stderr
+
+	execCmd.Run()
 }
 
 func fetchReadme(owner, repo string) (string, error) {
