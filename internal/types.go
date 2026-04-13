@@ -24,8 +24,6 @@ type Repository struct {
 	PushedAt          string      `json:"pushed_at"`
 	OpenIssuesCount   int         `json:"open_issues_count"`
 	License           *RepoLicense `json:"license"`
-	// Populated by a secondary request, not from the search API.
-	ClosedIssuesCount int
 	LicenseName       string
 }
  
