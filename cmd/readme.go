@@ -60,9 +60,8 @@ func fetchReadme(owner, repo string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
-	// GitHub recommends setting a User-Agent
 	req.Header.Set("User-Agent", "ght")
+	req.Header.Set("Accept", "application/vnd.github+json")
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -70,20 +69,30 @@ func fetchReadme(owner, repo string) (string, error) {
 	}
 	defer resp.Body.Close()
 
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("reading response body: %w", err)
+	}
+
 	if resp.StatusCode != http.StatusOK {
-		body, _ := io.ReadAll(resp.Body)
-		return "", fmt.Errorf("failed: %s\n%s", resp.Status, body)
+		return "", fmt.Errorf("GitHub API %s for %s/%s: %s", resp.Status, owner, repo, body)
 	}
 
 	var data ReadmeResponse
-	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
-		return "", err
+	if err := json.Unmarshal(body, &data); err != nil {
+		return "", fmt.Errorf("decoding JSON: %w", err)
 	}
 
-	// Decode Base64 content
-	decoded, err := base64.StdEncoding.DecodeString(data.Content)
+	if data.Encoding != "base64" {
+		return "", fmt.Errorf("unexpected encoding %q (expected base64)", data.Encoding)
+	}
+
+	// GitHub base64-encodes content with line breaks every 60 chars.
+	// StdEncoding rejects embedded newlines, so strip them first.
+	cleaned := strings.ReplaceAll(data.Content, "\n", "")
+	decoded, err := base64.StdEncoding.DecodeString(cleaned)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("decoding base64: %w", err)
 	}
 
 	return string(decoded), nil

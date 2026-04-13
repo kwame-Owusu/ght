@@ -1,16 +1,35 @@
 package internal
 
-type Repository struct {
-	FullName        string `json:"full_name"`
-	HTMLURL         string `json:"html_url"`
-	Description     string `json:"description"`
-	CreatedAt       string `json:"created_at"`
-	StargazersCount int    `json:"stargazers_count"`
-	Visibility      string `json:"visibility"`
+type TrendingParams struct {
+	DayFlag   bool
+	WeekFlag  bool
+	MonthFlag bool
+	YearFlag  bool
+	Limit     int
+	Language  string
 }
 
 type SearchResponse struct {
-	TotalCount        int          `json:"total_count"`
-	IncompleteResults bool         `json:"incomplete_results"`
-	Items             []Repository `json:"items"`
+	Items []Repository `json:"items"`
+}
+ 
+type Repository struct {
+	FullName          string      `json:"full_name"`
+	Description       string      `json:"description"`
+	HTMLURL           string      `json:"html_url"`
+	StargazersCount   int         `json:"stargazers_count"`
+	ForksCount        int         `json:"forks_count"`
+	Visibility        string      `json:"visibility"`
+	CreatedAt         string      `json:"created_at"`
+	PushedAt          string      `json:"pushed_at"`
+	OpenIssuesCount   int         `json:"open_issues_count"`
+	License           *RepoLicense `json:"license"`
+	// Populated by a secondary request, not from the search API.
+	ClosedIssuesCount int
+	LicenseName       string
+}
+ 
+type RepoLicense struct {
+	SPDXID string `json:"spdx_id"`
+	Name   string `json:"name"`
 }
