@@ -17,7 +17,7 @@
 
 ## 🎥 Demo
 
-https://github.com/user-attachments/assets/bee99a4b-c4e6-4533-b079-2e56e541911b
+![ght-demo](https://github.com/user-attachments/assets/b7b6d983-04d0-44ed-b01c-77d15553f638)
 
 ## 📦 Installation
 
