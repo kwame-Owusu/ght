@@ -2,7 +2,7 @@
 
 > A fast, CLI tool for discovering trending GitHub repositories from your terminal.
 
-`ght` is a lightweight command-line tool that brings GitHub's trending page straight to your terminal. Instead of opening a browser, you can instantly see what's hot on GitHub.
+`ght` is a command-line tool that brings GitHub's trending page straight to your terminal. Instead of opening a browser, you can instantly see what's hot on GitHub.
 
 ---
 
