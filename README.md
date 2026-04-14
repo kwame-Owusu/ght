@@ -15,12 +15,9 @@
 
 ---
 
-
 ## 🎥 Demo
 
 https://github.com/user-attachments/assets/bee99a4b-c4e6-4533-b079-2e56e541911b
-
-
 
 ## 📦 Installation
 
@@ -90,3 +87,7 @@ Prebuilt binaries are available on the [GitHub Releases page](https://github.com
   - `ght-linux-arm64`
 
 ---
+
+## Reason
+
+I know the github cli app can do something similar, just doing a little recreational programming :)
